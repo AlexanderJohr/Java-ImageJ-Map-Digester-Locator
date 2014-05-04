@@ -1,2 +1,16 @@
 Java-ImageJ-Map-Digester-Locator
 ================================
+
+In the course "image processing" at the Harz University of Applied Sciences I programmed this Java application which searches satellite photos for the location of digesters. It uses the library ImageJ for visualization.
+
+To be flexible in development it was necessary to use the source code from ImageJ itself. ImageJ does provide a feature to create plug-ins, but these consist of only one file and once an exception is thrown, the user doesn't get informed about it. The plug-in stops working and ignores the thrown exception. Furthermore errors in the syntax are not shown, the plug-in just doesn't compile and the last version is executed. Therefore the source code of ImageJ was imported in an eclipse project and new packages were created, which now use the functions of the library. That way it is possible to create applications with many classes like it was done for this project. The development of this application was test driven. For most of the functions the JUnit-test was created first. The unit tests were used to visualize the output to let the developer compare the result with the expected outcome. This helped extraordinarily during the development process, because they gave new hints for optimizing the algorithm in ways which was never thought about before.
+
+The program allows configuring it in any way. For example: digesters have different colours and the images, in which the digesters are searched in, have a variety of contrasts. Therefore it is necessary to use different contrast enhancer to find all of them. It is possible to define as many contrast enhancers as desired and to parametrize them differently to detect a wider range of digesters. This is done easily, by just adding another instance to the list of contrast enhancers.
+
+The program also uses its own Sobel operator although ImageJ provides one already. For the efficiency of the algorithm it was required to parametrize the size of the Sobel Matrix for it increases the chance of detecting the circles. This is important in case the image is not taken perfectly from above so the edges of the Digester is an ellipse rather than a perfect circle. With a Sobel matrix of a bigger size the edges are thicker as it is depicted in the image below.
+
+Around all the edge pixel a circle with the intensity of its origin is drawn. When numerous circles with a great intensity overlap, the sum of the intensity in this pixel increases over a configurable threshold. Then the program considers this pixel to be the origin of a digester candidate.
+
+The Application uses all cores provided by the system to process the images as fast as possible. Each core calculates the possible location of digesters in one image. When it is done, it takes care of the next image.
+
+At the end the program calculates the average colour in the areas inside the circles. If this colour is very dark, which means there isn't much difference in contrast inside the circles, these candidates are declared as digesters and green circles show them in the resulting images.

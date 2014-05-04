@@ -1,0 +1,16 @@
+craj
+craj.imagejplugin
+craj.mapDigesterLocator
+craj.test
+ij
+ij.gui
+ij.io
+ij.macro
+ij.measure
+ij.plugin
+ij.plugin.filter
+ij.plugin.frame
+ij.plugin.tool
+ij.process
+ij.text
+ij.util
